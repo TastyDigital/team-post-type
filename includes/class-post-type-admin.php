@@ -26,7 +26,13 @@ class Team_Post_Type_Admin {
 
 		// Add thumbnails to column view
 		add_filter( 'manage_edit-' . $this->registration_handler->post_type . '_columns', array( $this, 'add_image_column'), 10, 1 );
+
+		add_action( 'manage_' . $this->registration_handler->post_type . '_posts_columns', array( $this, 'add_sort_column'), 10, 1 );
+
 		add_action( 'manage_' . $this->registration_handler->post_type . '_posts_custom_column', array( $this, 'display_image' ), 10, 1 );
+
+		add_filter('manage_edit-' . $this->registration_handler->post_type . '_sortable_columns', array( $this, 'order_column_sortable'), 10, 1 );
+
 
 		// Allow filtering of posts by taxonomy in the admin view
 		add_action( 'restrict_manage_posts', array( $this, 'add_taxonomy_filters' ) );
@@ -51,6 +57,15 @@ class Team_Post_Type_Admin {
 		return array_slice( $columns, 0, 2, true ) + $column_thumbnail + array_slice( $columns, 1, null, true );
 	}
 
+	public function add_sort_column( $columns ) {
+		$columns['menu_order'] = "Order";
+		return $columns;
+	}
+
+	public function order_column_sortable($columns){
+		$columns['menu_order'] = 'menu_order';
+		return $columns;
+	}
 	/**
 	 * Custom column callback
 	 *
@@ -60,11 +75,17 @@ class Team_Post_Type_Admin {
 	 */
 	public function display_image( $column ) {
 
-		// global $post;
+		global $post;
 		switch ( $column ) {
 			case 'thumbnail':
-				// echo get_the_post_thumbnail( $post->ID, array(35, 35) );
-				echo get_the_post_thumbnail( get_the_ID(), array( 35, 35 ) );
+				echo get_the_post_thumbnail( $post->ID, array(35, 35) );
+				// echo get_the_post_thumbnail( get_the_ID(), array( 35, 35 ) );
+				break;
+			case 'menu_order':
+				$order = $post->menu_order;
+				echo $order;
+				break;
+			default:
 				break;
 		}
 	}

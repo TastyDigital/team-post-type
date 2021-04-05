@@ -1,0 +1,13 @@
+{
+    "name": "tastydigital/team-post-type",
+    "description": "Simple Wordpress plugin to manage website team members",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Toby Trembath",
+            "email": "toby@tastydigital.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}

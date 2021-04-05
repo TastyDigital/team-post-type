@@ -7,11 +7,11 @@
  *
  * @wordpress-plugin
  * Plugin Name: Team Post Type
- * Plugin URI:  http://github.com/devinsays/team-post-type
- * Description: Enables a team post type, taxonomy and metaboxes.
- * Version:     0.1.0
- * Author:      Devin Price
- * Author URI:  http://github.com/devinsays/team-post-type
+ * Plugin URI:  https://github.com/TastyDigital/team-post-type
+ * Description: Enables a team post type, taxonomy and metaboxes. Forked from code by Devin Price in April 2021
+ * Version:     1.0.0
+ * Author:      Tasty Digital
+ * Author URI:  https://tastydigital.com
  * Text Domain: team-post-type
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt

@@ -56,7 +56,7 @@ class Team_Post_Type_Registrations {
 			'title',
 			'editor',
 			'thumbnail',
-			'custom-fields',
+			'page-attributes',
 			'revisions',
 		);
 
@@ -68,6 +68,7 @@ class Team_Post_Type_Registrations {
 			'rewrite'         => array( 'slug' => 'team', ), // Permalinks format
 			'menu_position'   => 30,
 			'menu_icon'       => 'dashicons-id',
+			'has_archive'      => false  // change to enable team archive page
 		);
 
 		$args = apply_filters( 'team_post_type_args', $args );
