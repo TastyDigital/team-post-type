@@ -5,9 +5,9 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Toby Trembath",
-            "email": "toby@tastydigital.com"
-          "homepage": "https://tastydigita.com"
+          "name": "Toby Trembath",
+          "email": "toby@tastydigital.com",
+          "homepage": "https://tastydigital.com"
         },
         {
           "name": "Devin Price",
