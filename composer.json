@@ -7,6 +7,11 @@
         {
             "name": "Toby Trembath",
             "email": "toby@tastydigital.com"
+          "homepage": "https://tastydigita.com"
+        },
+        {
+          "name": "Devin Price",
+          "homepage": "http://github.com/devinsays/team-post-type"
         }
     ],
     "minimum-stability": "dev"
