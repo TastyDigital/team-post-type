@@ -27,6 +27,7 @@ if ( ! defined( 'WPINC' ) ) {
 require plugin_dir_path( __FILE__ ) . 'includes/class-post-type.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-post-type-registrations.php';
 require plugin_dir_path( __FILE__ ) . 'includes/class-post-type-metaboxes.php';
+require plugin_dir_path( __FILE__ ) . 'includes/class-post-type-shortcodes.php';
 
 // Instantiate registration class, so we can add it as a dependency to main plugin class.
 $post_type_registrations = new Team_Post_Type_Registrations;
@@ -44,6 +45,9 @@ $post_type_registrations->init();
 $post_type_metaboxes = new Team_Post_Type_Metaboxes;
 $post_type_metaboxes->init();
 
+// Initialize shortcodes
+$post_type_shortcodes = new Team_Post_Type_Shortcodes;
+$post_type_shortcodes->init();
 
 /**
  * Adds styling to the dashboard for the post type and adds team posts

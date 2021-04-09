@@ -29,7 +29,7 @@ class Team_Post_Type_Admin {
 
 		add_action( 'manage_' . $this->registration_handler->post_type . '_posts_columns', array( $this, 'add_sort_column'), 10, 1 );
 
-		add_action( 'manage_' . $this->registration_handler->post_type . '_posts_custom_column', array( $this, 'display_image' ), 10, 1 );
+		add_action( 'manage_' . $this->registration_handler->post_type . '_posts_custom_column', array( $this, 'display_sort' ), 10, 1 );
 
 		add_filter('manage_edit-' . $this->registration_handler->post_type . '_sortable_columns', array( $this, 'order_column_sortable'), 10, 1 );
 
@@ -73,14 +73,10 @@ class Team_Post_Type_Admin {
 	 *
 	 * @param string $column Column ID.
 	 */
-	public function display_image( $column ) {
+	public function display_sort( $column ) {
 
 		global $post;
 		switch ( $column ) {
-			case 'thumbnail':
-				echo get_the_post_thumbnail( $post->ID, array(35, 35) );
-				// echo get_the_post_thumbnail( get_the_ID(), array( 35, 35 ) );
-				break;
 			case 'menu_order':
 				$order = $post->menu_order;
 				echo $order;
