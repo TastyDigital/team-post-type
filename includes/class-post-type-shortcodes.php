@@ -15,7 +15,7 @@ class Team_Post_Type_Shortcodes {
 
 	public function init() {
 		add_shortcode( 'team-grid', array( $this, 'team_grid' ) );
-		add_shortcode( 'team-member', array( $this, 'team_member' ) );
+		//add_shortcode( 'team-member', array( $this, 'team_member' ) );
         add_image_size( 'mugshots', 310, 310, true);
         add_action( 'wp_enqueue_scripts', array( $this, 'team_post_enqueue_styles') );
 	}
@@ -117,25 +117,32 @@ class Team_Post_Type_Shortcodes {
 	*
 	* @since 0.1.0
 	*/
-	function team_member( $atts = array() ) {
+	// function team_member( $atts = array() ) {
 
-		$atts = shortcode_atts( array(
-            'id' => 0,
-            'baz' => 'default baz'
-        ), $atts, 'team-member' );
+	// 	$atts = shortcode_atts( array(
+    //         'id' => 0,
+    //         'name' => ''
+    //     ), $atts, 'team-member' );
 
-        if (!empty($atts['id'])) {
-            $args = array(
-              'ID'        => $atts['id'],
-              'post_type'   => 'team_member',
-              'post_status' => 'publish',
-              'numberposts' => 1
-            );
-            $member = get_posts($args);
-            $member = $member[0];
-        }
-        return "team_member baz = {$atts['baz']}";
-     }
+    //     if (!empty($atts['id']) && is_int($atts['id'])) {
+    //         $args['ID'] = $atts['id'];
+    //     }else if (!empty($atts['name'])){
+    //         $args['post_title'] = $atts['name'];
+    //     }
+    //     if(empty($args)){
+    //         return '<p>'.__('Team member not found', 'team-post-type').'</p>';
+    //     }
+    //     $args['post_type']  = 'team_member';
+    //     $args['post_status'] = 'publish';
+    //     $args['numberposts'] = 1;
+
+    //     //echo '<pre>'.print_r($args,true).'</Pre>';
+    //     $member = get_posts($args);
+    //     $member = $member[0];
+        
+          
+    //     return '<p>HELLO '.$member->post_title.'</p><pre>'.print_r($args,true).'</pre>';
+    //  }
 
 
 }
