@@ -46,6 +46,7 @@ class Team_Post_Type_Metaboxes {
 		$twitter = ! isset( $meta['profile_twitter'][0] ) ? '' : $meta['profile_twitter'][0];
 		$linkedin = ! isset( $meta['profile_linkedin'][0] ) ? '' : $meta['profile_linkedin'][0];
 		$facebook = ! isset( $meta['profile_facebook'][0] ) ? '' : $meta['profile_facebook'][0];
+		$instagram = ! isset( $meta['profile_instagram'][0] ) ? '' : $meta['profile_instagram'][0];
 
 		wp_nonce_field( basename( __FILE__ ), 'profile_fields' ); ?>
 
@@ -92,6 +93,15 @@ class Team_Post_Type_Metaboxes {
 				</td>
 			</tr>
 
+			<tr>
+				<td class="team_meta_box_td" colspan="2">
+					<label for="profile_instagram"><?php _e( 'Instagram URL', 'team-post-type' ); ?>
+					</label>
+				</td>
+				<td colspan="4">
+					<input type="text" name="profile_instagram" class="regular-text" value="<?php echo $instagram; ?>">
+				</td>
+			</tr>
 		</table>
 
 	<?php }
@@ -132,7 +142,9 @@ class Team_Post_Type_Metaboxes {
 		$meta['profile_twitter'] = ( isset( $_POST['profile_twitter'] ) ? esc_url( $_POST['profile_twitter'] ) : '' );
 
 		$meta['profile_facebook'] = ( isset( $_POST['profile_facebook'] ) ? esc_url( $_POST['profile_facebook'] ) : '' );
-
+        
+        $meta['profile_instagram'] = ( isset( $_POST['profile_instagram'] ) ? esc_url( $_POST['profile_instagram'] ) : '' );
+        
 		foreach ( $meta as $key => $value ) {
 			update_post_meta( $post->ID, $key, $value );
 		}

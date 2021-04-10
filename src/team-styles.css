@@ -1,0 +1,62 @@
+/* expects bootstrap 4 to be in the theme */
+.team-grid {
+    margin-right: -4px;
+    margin-left: -4px;
+    margin-bottom: 1rem;
+}
+.team-grid > .col,
+.team-grid > [class*="col-"] {
+    padding-right: 4px;
+    padding-left: 4px;
+}
+.hover-container {
+    position: relative;
+    overflow: hidden;
+}
+.hover-container .hover-content {
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #E1B100;
+    background-color: rgba(225,177,0,0.9);
+    transform: translateX(-100%);
+    transition: transform .33s ease-in-out;
+}
+.hover-container:hover .hover-content {
+    transform: translateX(0);
+}
+.team-person {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+.team-person h2 {
+    font-size: 1.5rem;
+    font-family: "Unna", serif;
+    margin: 0 0 1rem 0;
+    font-weight: 700;
+}
+.team-person h3 {
+    font-size: 1.1875rem;
+    font-family: "Unna", serif;
+    text-transform: none;
+    margin: 0 0 1rem 0;
+}
+ul.team-social {
+    margin:0;
+    padding:0;
+}
+ul.team-social li a {
+  display: block;
+  width:24px;
+  height:24px;  
+}
+ul.team-social svg {
+    fill:currentColor;
+    max-width: 100%;
+    max-height:100%;
+}
