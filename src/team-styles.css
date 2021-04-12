@@ -1,4 +1,13 @@
 /* expects bootstrap 4 to be in the theme */
+/* 
+grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: $alignwide
+);
+*/
 .team-grid {
     margin-right: -4px;
     margin-left: -4px;
@@ -8,12 +17,15 @@
 .team-grid > [class*="col-"] {
     padding-right: 4px;
     padding-left: 4px;
+    margin-bottom: 8px;
 }
-.hover-container {
+.team-member-container {
     position: relative;
     overflow: hidden;
+    width: 100%;
+    padding-top: 100%;
 }
-.hover-container .hover-content {
+.team-member-container .team-member-content {
     position: absolute;
     top:0;
     bottom: 0;
@@ -21,10 +33,18 @@
     right: 0;
     background-color: #E1B100;
     background-color: rgba(225,177,0,0.9);
+}
+.team-member-container.hover-container {
+    height: 100%;
+    padding: 0;
+
+}
+.team-member-container.hover-container .team-member-content {
     transform: translateX(-100%);
     transition: transform .33s ease-in-out;
+
 }
-.hover-container:hover .hover-content {
+.team-member-container.hover-container:hover .team-member-content {
     transform: translateX(0);
 }
 .team-person {
@@ -59,4 +79,9 @@ ul.team-social svg {
     fill:currentColor;
     max-width: 100%;
     max-height:100%;
+}
+.team-media .team-portrait {
+    width: 100%;
+    height: auto;
+    display: block;
 }
