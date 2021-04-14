@@ -45,7 +45,7 @@ class Team_Post_Type_Shortcodes {
             'orderby'    => 'menu_order',
             'sort_order' => 'asc'
         );
-        $teamclass = '';
+        $containerclass = '';
         if($atts['group'] !== 'all'){
             $args['tax_query'] = array(
                 array(
