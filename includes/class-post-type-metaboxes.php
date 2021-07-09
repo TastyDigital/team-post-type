@@ -43,7 +43,7 @@ class Team_Post_Type_Metaboxes {
 
 		$meta = get_post_custom( $post->ID );
 		$title = ! isset( $meta['profile_title'][0] ) ? '' : $meta['profile_title'][0];
-		$website = ! isset( $meta['profile_website '][0] ) ? '' : $meta['profile_website '][0];
+		$website = ! isset( $meta['profile_website'][0] ) ? '' : $meta['profile_website'][0];
 		$twitter = ! isset( $meta['profile_twitter'][0] ) ? '' : $meta['profile_twitter'][0];
 		$linkedin = ! isset( $meta['profile_linkedin'][0] ) ? '' : $meta['profile_linkedin'][0];
 		$facebook = ! isset( $meta['profile_facebook'][0] ) ? '' : $meta['profile_facebook'][0];
