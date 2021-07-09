@@ -43,6 +43,7 @@ class Team_Post_Type_Metaboxes {
 
 		$meta = get_post_custom( $post->ID );
 		$title = ! isset( $meta['profile_title'][0] ) ? '' : $meta['profile_title'][0];
+		$website = ! isset( $meta['profile_website '][0] ) ? '' : $meta['profile_website '][0];
 		$twitter = ! isset( $meta['profile_twitter'][0] ) ? '' : $meta['profile_twitter'][0];
 		$linkedin = ! isset( $meta['profile_linkedin'][0] ) ? '' : $meta['profile_linkedin'][0];
 		$facebook = ! isset( $meta['profile_facebook'][0] ) ? '' : $meta['profile_facebook'][0];
@@ -62,6 +63,16 @@ class Team_Post_Type_Metaboxes {
 				<td colspan="4">
 					<input type="text" name="profile_title" class="regular-text" value="<?php echo $title; ?>">
 					<p class="description"><?php _e( 'E.g. CEO, Sales Lead, Designer', 'team-post-type' ); ?></p>
+				</td>
+			</tr>
+
+			<tr>
+				<td class="team_meta_box_td" colspan="2">
+					<label for="profile_website"><?php _e( 'Website URL', 'team-post-type' ); ?>
+					</label>
+				</td>
+				<td colspan="4">
+					<input type="text" name="profile_website" class="regular-text" value="<?php echo $website; ?>">
 				</td>
 			</tr>
 
@@ -170,6 +181,8 @@ class Team_Post_Type_Metaboxes {
 		$meta['profile_youtube'] = ( isset( $_POST['profile_youtube'] ) ? esc_url( $_POST['profile_youtube'] ) : '' );
 
 		$meta['profile_pinterest'] = ( isset( $_POST['profile_pinterest'] ) ? esc_url( $_POST['profile_pinterest'] ) : '' );
+
+		$meta['profile_website'] = ( isset( $_POST['profile_website'] ) ? esc_url( $_POST['profile_website'] ) : '' );
         
 		foreach ( $meta as $key => $value ) {
 			update_post_meta( $post->ID, $key, $value );
