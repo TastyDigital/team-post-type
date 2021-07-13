@@ -19,7 +19,9 @@ class Team_Post_Type_Registrations {
 
 	public function init() {
 		// Add the team post type and taxonomies
-		add_action( 'init', array( $this, 'register' ) );
+		add_action( 'init', array( $this, 'register' ));
+		add_action( 'init', array( $this, 'format' ), 30);
+		add_action( 'pre_get_posts', array( $this, 'sort_team_by_menu_order') );
 	}
 
 	/**
@@ -32,7 +34,19 @@ class Team_Post_Type_Registrations {
 		$this->register_post_type();
 		$this->register_taxonomy_category();
 	}
-
+	public function format() {
+		$theme = wp_get_theme()->parent();
+		if($theme == 'Genesis'){
+			remove_post_type_support( $this->post_type, 'genesis-entry-meta-before-content' );
+			add_filter( 'genesis_post_title_output',  array( $this, 'genesis_team_add_subtitle'), 10, 3);
+			add_action( 'genesis_entry_footer', array( $this, 'genesis_output_team_socials') );
+			add_action('genesis_entry_header', array( $this, 'genesis_output_mugshot'), 2 );
+		}else{
+			// generic wordpress title filter.
+			add_filter('the_title',  array( $this, 'team_add_subtitle'), 10, 2);
+			add_action('the_content', array( $this, 'generic_output_team_socials') );
+		}
+	}
 	/**
 	 * Register the custom post type.
 	 *
@@ -65,15 +79,17 @@ class Team_Post_Type_Registrations {
 			'supports'        => $supports,
 			'public'          => true,
 			'capability_type' => 'post',
-			'rewrite'         => array( 'slug' => 'team', ), // Permalinks format
+			'rewrite'         => array( 'slug' => 'team', 'with_front' => false ), // Permalinks format
 			'menu_position'   => 30,
 			'menu_icon'       => 'dashicons-id',
-			'has_archive'      => false  // change to enable team archive page
+			'has_archive'      => true  // change to enable team archive page
 		);
 
 		$args = apply_filters( 'team_post_type_args', $args );
 
 		register_post_type( $this->post_type, $args );
+
+
 	}
 
 	/**
@@ -116,5 +132,85 @@ class Team_Post_Type_Registrations {
 		$args = apply_filters( 'team_post_type_category_args', $args );
 
 		register_taxonomy( $this->taxonomies[0], $this->post_type, $args );
+	}
+
+	public function sort_team_by_menu_order($wp_query){
+		if ( $wp_query->is_main_query() && ( is_tax('team-category') || is_post_type_archive('team') ) && !is_admin()) {
+			$wp_query->set('orderby', 'menu_order');
+			$wp_query->set('order', 'ASC');
+		}
+	}
+
+	public function team_add_subtitle($title, $id){
+		if( get_post_type( $id ) === $this->post_type && !is_admin() ){
+			$subtitle = get_post_meta($id, 'profile_title',true);
+			if($subtitle != '') {
+				if ( is_singular( 'team' ) && $id == get_queried_object_id() ) {
+					$title = '<h1 class=""entry-title">' . $title . '</h1><h3 class="team-role">' . $subtitle . '</h3>';
+				}else{
+					$title = '<h2 class=""entry-title">' . $title . '</h2><h4 class="team-role">' . $subtitle . '</h4>';
+				}
+			}
+		}
+		return $title;
+	}
+	public function genesis_team_add_subtitle($output, $wrap, $title){
+		if( get_post_type( get_the_ID() ) === $this->post_type && !is_admin() ){
+			$subtitle = get_post_meta(get_the_ID(), 'profile_title',true);
+			if($subtitle != '') {
+				if ( is_singular( 'team' ) ) {
+					$output .= '<h3 class="team-role">' . $subtitle . '</h3>';
+				}else{
+					$output .= '<h4 class="team-role">' . $subtitle . '</h4>';
+				}
+			}
+		}
+		return $output;
+
+	}
+	public function genesis_output_team_socials(){
+		if( get_post_type( get_the_ID() ) === $this->post_type ) {
+			echo $this->output_team_socials();
+		}
+	}
+	public function generic_output_team_socials($content){
+		if( get_post_type( get_the_ID() ) === $this->post_type ) {
+			return $content . $this->output_team_socials();
+		}
+		return $content;
+	}
+	public function output_team_socials(){
+		$social = include 'social-icons.php';
+		$custom_fields = get_post_custom(get_the_ID());
+		$links = '';
+		foreach ( $social as $key => $value ) {
+			if( isset( $custom_fields['profile_'.$key][0] ) && $custom_fields['profile_'.$key][0] !== ''){
+				$links .= '<li class="list-inline-item"><a href="'.$custom_fields['profile_'.$key][0].'" title="'.$key. '">' .  $value. '</a></li>';
+			}
+		}
+		if($links !== ''){
+			$links = '<ul class="list-inline team-social">'.$links.'</ul>';
+		}
+
+		return $links;
+	}
+	public function genesis_output_mugshot(){
+		if( get_post_type( get_the_ID() ) === $this->post_type ) {
+
+			$pic = '';
+			if (has_post_thumbnail(get_the_ID())) {
+				$pic = '<div class="team-portrait">';
+				$pic .= get_the_post_thumbnail(get_the_ID(), 'portraits', array( 'class' => 'team-portrait' ));
+				$pic .= '</div>';
+				$pic .= '<div class="team-info">';
+				add_action( 'genesis_entry_footer', array( $this, 'genesis_close_team_info'), 30 );
+
+			}
+			echo $pic;
+
+		}
+	}
+	public function genesis_close_team_info(){
+		echo '</div>';
 	}
 }
