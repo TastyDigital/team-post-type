@@ -222,8 +222,7 @@ class Team_Post_Type_Registrations {
 		if( $this->post_type !== get_post_type() )
 			return $crumb;
 		// Grab terms
-		$terms = get_the_terms( get_the_ID(), $this->taxonomies[0] );
-
+        // Primary category support if available.
 		if ( class_exists('WPSEO_Primary_Term') )
 		{
 			// Show the post's 'Primary' category, if this Yoast feature is available, & one is set
@@ -251,7 +250,9 @@ class Team_Post_Type_Registrations {
 			// Only use one term
 			//$term = array_shift( $terms );
 			// Build the breadcrumb
-			$crumb = '<a href="' . get_term_link( $termObject, $this->taxonomies[0]  ) . '">' . $termObject->name . '</a>' . $args['sep'] . get_the_title();
+			//$crumb = '<a href="' . get_term_link( $termObject, $this->taxonomies[0]  ) . '">' . $termObject->name . '</a>' . $args['sep'] . get_the_title();
+			$crumb = '<span class="breadcrumb-link-wrap"><a class="breadcrumb-link" href="' . get_term_link( $termObject, $this->taxonomies[0]  ) . '"><span class="breadcrumb-link-text-wrap">' . $termObject->name . '</span></a></span> ' . $args['sep'] . ' ' . $crumb;
+
 		}
 
 		return $crumb;
