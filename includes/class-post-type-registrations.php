@@ -250,8 +250,7 @@ class Team_Post_Type_Registrations {
 			// Only use one term
 			//$term = array_shift( $terms );
 			// Build the breadcrumb
-			//$crumb = '<a href="' . get_term_link( $termObject, $this->taxonomies[0]  ) . '">' . $termObject->name . '</a>' . $args['sep'] . get_the_title();
-			$crumb = '<span class="breadcrumb-link-wrap"><a class="breadcrumb-link" href="' . get_term_link( $termObject, $this->taxonomies[0]  ) . '"><span class="breadcrumb-link-text-wrap">' . $termObject->name . '</span></a></span> ' . $args['sep'] . ' ' . $crumb;
+			$crumb = '<span class="breadcrumb-link-wrap"><a class="breadcrumb-link" href="' . get_term_link( $termObject, $this->taxonomies[0]  ) . '"><span class="breadcrumb-link-text-wrap">' . $termObject->name . '</span></a></span> ' . $args['sep'] . ' ' . get_the_title();
 
 		}
 
