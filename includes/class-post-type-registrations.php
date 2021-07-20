@@ -41,6 +41,9 @@ class Team_Post_Type_Registrations {
 			add_filter( 'genesis_post_title_output',  array( $this, 'genesis_team_add_subtitle'), 10, 3);
 			add_action( 'genesis_entry_footer', array( $this, 'genesis_output_team_socials') );
 			add_action('genesis_entry_header', array( $this, 'genesis_output_mugshot'), 2 );
+			add_filter( 'genesis_single_crumb', array( $this, 'tasty_team_breadcrumb'), 10, 2 );
+
+			add_post_type_support( $this->post_type, array('genesis-seo','genesis-breadcrumbs-toggle') );
 		}else{
 			// generic wordpress title filter.
 			add_filter('the_title',  array( $this, 'team_add_subtitle'), 10, 2);
@@ -71,6 +74,7 @@ class Team_Post_Type_Registrations {
 			'editor',
 			'thumbnail',
 			'page-attributes',
+			'custom-fields',
 			'revisions',
 		);
 
@@ -124,7 +128,7 @@ class Team_Post_Type_Registrations {
 			'show_ui'           => true,
 			'show_tagcloud'     => true,
 			'hierarchical'      => true,
-			'rewrite'           => array( 'slug' => 'team-category' ),
+			'rewrite'           => array( 'slug' => 'teams' ),
 			'show_admin_column' => true,
 			'query_var'         => true,
 		);
@@ -212,5 +216,44 @@ class Team_Post_Type_Registrations {
 	}
 	public function genesis_close_team_info(){
 		echo '</div>';
+	}
+	public function tasty_team_breadcrumb( $crumb, $args ) {
+		// Only modify the breadcrumb if in the 'team' post type
+		if( $this->post_type !== get_post_type() )
+			return $crumb;
+		// Grab terms
+		$terms = get_the_terms( get_the_ID(), $this->taxonomies[0] );
+
+		if ( class_exists('WPSEO_Primary_Term') )
+		{
+			// Show the post's 'Primary' category, if this Yoast feature is available, & one is set
+			$wpseo_primary_term = new WPSEO_Primary_Term( $this->taxonomies[0], get_the_ID() );
+			$wpseo_primary_term = $wpseo_primary_term->get_primary_term();
+			$termObject = get_term( $wpseo_primary_term );
+
+		}
+		elseif (function_exists( 'the_seo_framework' )){
+			$wpseo_primary_term = the_seo_framework()->get_primary_term_id( get_the_ID(), $this->taxonomies[0] );
+			$termObject = get_term( $wpseo_primary_term );
+		}
+
+		if (is_wp_error($termObject) || empty($termObject)) {
+			$terms = get_the_terms( get_the_ID(), $this->taxonomies[0] );
+			$termObject = array_pop($terms); // we take the first term if they land on this page.
+		}
+
+
+
+
+		if( empty( $termObject ) || is_wp_error( $termObject ) ){
+			return $crumb;
+		}else{
+			// Only use one term
+			//$term = array_shift( $terms );
+			// Build the breadcrumb
+			$crumb = '<a href="' . get_term_link( $termObject, $this->taxonomies[0]  ) . '">' . $termObject->name . '</a>' . $args['sep'] . get_the_title();
+		}
+
+		return $crumb;
 	}
 }
