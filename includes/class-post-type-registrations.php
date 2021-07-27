@@ -43,6 +43,7 @@ class Team_Post_Type_Registrations {
 			add_action('genesis_entry_header', array( $this, 'genesis_output_mugshot'), 2 );
 			add_filter( 'genesis_single_crumb', array( $this, 'tasty_team_breadcrumb'), 10, 2 );
 
+			add_action('genesis_after_content', array( $this, 'tasty_team_output_genesis_posts'), 25);
 			add_post_type_support( $this->post_type, array('genesis-seo','genesis-breadcrumbs-toggle') );
 		}else{
 			// generic wordpress title filter.
@@ -255,5 +256,34 @@ class Team_Post_Type_Registrations {
 		}
 
 		return $crumb;
+	}
+	public function tasty_team_output_genesis_posts(){
+		if( is_singular( $this->post_type) && !is_admin() ){
+			$user = get_field("user_account");
+
+			if( $user && !empty($user['ID']) ) {
+				$author_query = new WP_Query( array( 'author' => $user['ID'] , 'post_type' => 'post','posts_per_page' => 3 ) );
+				$template = plugin_dir_path( __DIR__ ) . 'templates/loop-articles.php'; // TODO: Make this theme customisable
+				//$authors_posts = get_posts( array( 'author' => $user['ID'] ));
+				if($author_query->have_posts()){
+				?>
+				<div class="author-box">
+					<h2><?php echo __('Latest articles by ', 'team-post-type').' '.$user['display_name']; ?></h2>
+					<?php if( $user['user_description'] ): ?>
+						<!-- p><?php echo $user['user_description']; ?></p -->
+					<?php endif; ?>
+                    <div class="row">
+					<?php while ( $author_query->have_posts() ) : $author_query->the_post();
+
+					//get_template_part( 'loop', 'hub' );
+						load_template(  $template, false );
+					 endwhile; ?>
+					<!-- end of the loop -->
+				    </div>
+				</div>
+
+			<?php }
+			}
+		}
 	}
 }
