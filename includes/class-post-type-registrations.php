@@ -280,6 +280,9 @@ class Team_Post_Type_Registrations {
 					 endwhile; ?>
 					<!-- end of the loop -->
 				    </div>
+                    <div class="text-center">
+                        <a class="btn btn-primary"  href="<?php echo esc_url( get_author_posts_url( $user['ID'] ) ); ?>" title="<?php echo $user['display_name']; ?>"><?php _e('See more ', 'team-post-type'); ?></a>
+                    </div>
 				</div>
 
 			<?php }
